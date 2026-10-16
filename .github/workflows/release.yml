@@ -20,7 +20,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      RELEASE_REPO: ardarman09-design/AdaptiveFiller-Releases
+      RELEASE_REPO: nirvana-soft/AdaptiveFiller-Releases
       PROJECT_PATH: ./AdaptiveFiller.csproj
       APP_NAME: AdaptiveFiller
 
