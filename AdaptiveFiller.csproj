@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\artstudios.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\artstudios.ico" />
+    <None Remove="Resources\splash.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="App - Copy.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\artstudios.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="PDFsharp" Version="1.50.5147" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Style\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\artstudios.ico" />
+    <Resource Include="Resources\splash.jpg" />
+  </ItemGroup>
+
+</Project>

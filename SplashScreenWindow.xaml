@@ -1,0 +1,32 @@
+﻿<Window x:Class="HyakuninKumiteApplication.SplashScreenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HyakuninKumiteApplication"
+        mc:Ignorable="d"
+        Title="Loading..." Height="400" Width="750"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+            <Border BorderBrush="#D1D5DB" BorderThickness="1" CornerRadius="8" Padding="25">
+        <Border.Background>
+            <ImageBrush ImageSource="/Resources/splash.jpg" Stretch="UniformToFill"/>
+        </Border.Background>
+
+        <Grid VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Bottom-Left Text -->
+            <TextBlock Grid.Column="0" Text="Built by Arda Arman" FontSize="10" Foreground="DarkGoldenrod" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+            <!-- Bottom-Right Loading Indicator -->
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Height="4" Width="250" Foreground="#3B82F6" Background="#E5E7EB" BorderThickness="0"/>
+                <TextBlock Text="Loading competitions and data..." FontSize="10" Foreground="#9CA3AF" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
