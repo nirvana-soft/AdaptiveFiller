@@ -1,0 +1,78 @@
+
+name: Build and Publish Public Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    env:
+      RELEASE_REPO: ardarman09-design/AdaptiveFiller-Releases
+      PROJECT_PATH: ./AdaptiveFiller.csproj
+      APP_NAME: AdaptiveFiller
+
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Determine release version
+        id: version
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') {
+            throw "Expected version tag like v1.0.0"
+          }
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Restore dependencies
+        run: dotnet restore "${{ env.PROJECT_PATH }}"
+
+      - name: Publish Windows application
+        shell: pwsh
+        run: |
+          dotnet publish "${{ env.PROJECT_PATH }}" `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            --output ./publish `
+            -p:PublishSingleFile=false
+
+      - name: Create ZIP package
+        shell: pwsh
+        run: |
+          $tag = "${{ steps.version.outputs.tag }}"
+          $zip = "${{ env.APP_NAME }}-$tag-win-x64.zip"
+          Compress-Archive -Path ./publish/* `
+            -DestinationPath "./$zip"
+          "ZIP_FILE=$zip" >> $env:GITHUB_ENV
+
+      - name: Publish to public GitHub repository
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.PUBLIC_RELEASE_TOKEN }}
+        run: |
+          $tag = "${{ steps.version.outputs.tag }}"
+          gh release create "$tag" "./$env:ZIP_FILE" `
+            --repo "$env:ardarman09-design/AdaptiveFiller-Releases" `
+            --target main `
+            --title "$env:APP_NAME $tag" `
+            --notes "Windows x64 release $tag."
