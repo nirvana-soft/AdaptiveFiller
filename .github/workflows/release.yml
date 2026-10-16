@@ -72,7 +72,7 @@ jobs:
         run: |
           $tag = "${{ steps.version.outputs.tag }}"
           gh release create "$tag" "./$env:ZIP_FILE" `
-            --repo "$env:ardarman09-design/AdaptiveFiller-Releases" `
+            --repo "$env:RELEASE_REPO" `
             --target main `
             --title "$env:APP_NAME $tag" `
             --notes "Windows x64 release $tag."
